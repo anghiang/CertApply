@@ -1,0 +1,29 @@
+#fileArea {
+	border-radius: 10px;
+	background-color: aliceblue;
+}
+
+#issueForm {
+	margin-top: 30px;
+}
+
+.d-none {
+	display: none;
+}
+
+.pd1 {
+	width: 850px;
+	margin-left: 15px;
+	margin-top: 20px;
+}
+
+#addBtn {
+
+	margin-top: 30px;
+	justify-content: center;
+}
+
+#addBtn button {
+	background-color: #6c757d;
+	border-color: #6c757d;
+}

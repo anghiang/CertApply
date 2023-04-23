@@ -1,0 +1,292 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>MiCoach - Online Courses HTML5 Template</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="manifest" href="site.webmanifest">
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+	<link rel="stylesheet" href="./assets/css/index.css">
+	<!-- Place favicon.ico in the root directory -->
+
+	<!-- CSS here -->
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="assets/css/animate.min.css">
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<link rel="stylesheet" href="assets/css/nice-select.css">
+	<link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="assets/css/themify-icons.css">
+	<link rel="stylesheet" href="assets/css/metisMenu.css">
+	<link rel="stylesheet" href="assets/css/meanmenu.css">
+	<link rel="stylesheet" href="assets/css/slick.css">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/issueCert.css">
+
+</head>
+
+<body>
+
+<!-- header-start -->
+<header class="header-transparent header-transparent-02">
+	<div id="sticky-header" class="main-menu-area menu-padding pl-55 pr-55">
+		<div class="container custom-container">
+			<div class="row align-items-center">
+				<div class="col-xl-3 col-lg-6 col-md-11 col-9">
+					<div class="logo">
+						<a class="img-fluid" href="index.html"><img src="assets/img/logo/footer-01-logo.png"
+																	alt="" /></a>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-6 d-none d-xl-block">
+					<div class="main-menu main-menu-02 ">
+						<nav id="mobile-menu">
+							<ul>
+								<li class="active"><a href="index.html">首页</a>
+
+								</li>
+								<li><a href="#">生成简历 </a>
+
+								</li>
+								<li><a href="#">验证简历 </a>
+
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</header>
+
+
+<div class="course-cat-area-02 blue-dark-bg pt-130 pb-100">
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-12 col-lg-12 " id="fileArea">
+				<form class="form-horizontal" id="issueForm">
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">学生账户：</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="address" placeholder="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">证书名称：</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="certName" placeholder="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">有效期：</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="validityPeriod" placeholder="">
+						</div>
+					</div>
+					<div class="row" style="margin-left: 15px; margin-bottom: 30px;">
+						<div class="dropdown">
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								证书类型
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" data-value="manual" certT="1" href="#">普通证书</a>
+								<a class="dropdown-item" data-value="import" certT="2" href="#">成绩单</a>
+
+							</div>
+						</div>
+					</div>
+					<!-- <div class="row" style="margin-left: 15px; margin-bottom: 30px;">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    成绩导入
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" data-value="manual" href="#">多条导入</a>
+                                </div>
+                            </div>
+                        </div> -->
+
+					<div id="manual-score" class="d-none pd1" style="margin-bottom: 30px;">
+						<!-- 手动输入成绩的表单 -->
+						<div id="scores">
+							<div class="score">
+								<div class="form-group">
+									<label for="score-input">课程名称</label>
+									<input type="text" class="form-control" id="course-input">
+								</div>
+								<div class="form-group">
+									<label for="score-input">成绩</label>
+									<input type="text" class="form-control" id="score-input">
+								</div>
+							</div>
+
+						</div>
+
+
+						<a href="javascript:void(0)" id="add-score">添加</a>
+
+
+					</div>
+
+
+
+				</form>
+
+
+			</div>
+		</div>
+		<div class="row" id="addBtn">
+			<button type="button" class="btn btn-primary" id="issueBtn">颁发证书</button>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+<!-- brand-area-end -->
+
+<footer class="footer-area pt-65 pb-45" data-background="assets/img/bg/fot-02-bg.png">
+	<div class="copyright-area copyright-area-02 mt-15 text-center pt-20 pb-20">
+		<div class="row">
+			<div class="col-xl-12">
+				<div class="copyright-text">
+					<p>Copyright © 2020 <a href="#">BDevs</a> All Rights Reserved.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</footer>
+<!-- footer-area-end
+
+
+
+
+
+    <!-- JS here -->
+<script src="assets/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/isotope.pkgd.min.js"></script>
+<script src="assets/js/slick.min.js"></script>
+<script src="assets/js/metisMenu.min.js"></script>
+<script src="assets/js/jquery.meanmenu.min.js"></script>
+<script src="assets/js/ajax-form.js"></script>
+<script src="assets/js/wow.min.js"></script>
+<script src="assets/js/waypoints.min.js"></script>
+<script src="assets/js/jquery.counterup.min.js"></script>
+<script src="assets/js/jquery.scrollUp.min.js"></script>
+<script src="assets/js/imagesloaded.pkgd.min.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/jquery.nice-select.js"></script>
+<script src="assets/js/jquery.easypiechart.js"></script>
+<script src="assets/js/plugins.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+	let certT = 1
+
+	$('.dropdown-item').on('click', function () {
+		// 获取选项的值
+		var value = $(this).data('value');
+
+		// 根据选项的值，显示对应的表单并隐藏其他表单
+		if (value === 'manual') {
+			certT = 1
+			$('#manual-score').addClass('d-none');
+
+		} else if (value === 'import') {
+			certT = 2
+			$('#manual-score').removeClass('d-none');
+
+		}
+	});
+
+
+	var scoreCount = 1;
+
+	// 添加新的成绩输入框
+	$('#add-score').on('click', function () {
+		scoreCount++;
+		var scoreHtml = `<div class="score">
+										<a href="javascript:void(0)" class="delete-score">删除</a>
+										<div class="form-group">
+											<label for="score-input">课程名称</label>
+											<input type="text" class="form-control" id="course-input">
+										</div>
+										<div class="form-group">
+											<label for="score-input">成绩</label>
+											<input type="text" class="form-control" id="score-input">
+										</div>
+									</div>`;
+		$('#scores').append(scoreHtml);
+	});
+
+	$('#scores').on('click', '.delete-score', function () {
+		$(this).parent().remove();
+	});
+
+
+	$("#issueBtn").on('click', function () {
+		var formData = new FormData();
+		formData.append('address', $('#address').val())
+		formData.append('certName', $('#certName').val())
+		formData.append('validityPeriod', $('#validityPeriod').val())
+
+		if (certT == 1) {
+			var data = {
+				CertName: $('#certName').val(),
+				Address: $('#address').val(),
+				ValidityPeriod: $('#validityPeriod').val(),
+			};
+			$.ajax({
+				url: '/addCert',
+				type: 'POST',
+				data: data,
+				success: function (data) {
+
+				}
+			})
+
+		}else if (certT == 2) {
+			var scores = $('input[id^="score-"]').map(function () {
+				return $(this).val();
+			}).get();
+			var courses = $('input[id^="course-"]').map(function () {
+				return $(this).val();
+			}).get();
+			var data = $.map(scores, function (score, i) {
+				return {
+					course: courses[i],
+					score: score
+				};
+			});
+			formData.append('courses', JSON.stringify(data))
+			$.ajax({
+				url: '/addTranscript',
+				type: 'POST',
+				data: formData,
+				success: function (data) {
+
+				}
+			})
+		}
+
+	})
+</script>
+</body>
+
+</html>

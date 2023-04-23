@@ -1,0 +1,37 @@
+#fileArea {
+	height: 650px;
+	border-radius: 10px;
+	background-color: aliceblue;
+}
+
+#inFileArea {
+	height: 31.25rem;
+	border: 2px dashed #1a245d;
+	border-radius: 10px;
+	margin-top: 20px;
+	/* box-shadow: 0 0 5px 2px #1a245d; */
+}
+
+#faTitle {
+	justify-content: center;
+	margin-top: 20px;
+	/* margin-bottom: 10px; */
+}
+
+#imgArea {
+	margin-top: 100px;
+	justify-content: center;
+	align-items: center;
+}
+
+#selectFileArea {
+	margin-top: 20px;
+	justify-content: center;
+
+
+}
+
+#selectFileArea span {
+	background-color: #0e1851;
+	border-color: #0e1851;
+}

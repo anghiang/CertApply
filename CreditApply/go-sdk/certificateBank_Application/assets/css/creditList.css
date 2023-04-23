@@ -1,0 +1,29 @@
+#addBtn {
+	color: aliceblue;
+	justify-content: center;
+}
+
+#addBtn button {
+	background-color: aliceblue;
+	color: #0e1851;
+	box-shadow: none;
+	transition: box-shadow 0.3s ease-in-out;
+}
+
+#addBtn button:hover {
+	box-shadow: 0 0 10px #007bff;
+}
+
+.bigger {
+	transition: transform 0.3s ease-in-out;
+}
+
+.bigger:hover {
+	transform: scale(1.1);
+}
+
+.selectBox {
+	width: 20px;
+	height: 20px;
+	margin-top: 10px;
+}

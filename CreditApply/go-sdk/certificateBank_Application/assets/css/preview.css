@@ -1,0 +1,49 @@
+.previewArea {
+	background-image: url("../image/bk.png");
+	background-size: cover;
+	/* position: relative; */
+}
+
+
+
+#certName{
+	margin-bottom: 30px;
+	margin-top: 20px;
+}
+
+.meta{
+	margin-bottom: 10px;
+}
+
+#creditTitle{
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.hidden{
+	padding-left: 10px;
+}
+
+.cha{
+	color: red;
+}
+
+.hide{
+	display: none;
+}
+.hide2{
+	visibility: hidden;
+}
+
+
+#addBtn {
+
+	margin-top: 30px;
+	justify-content: center;
+}
+
+#addBtn button {
+	background-color: #045074;
+	border-color: #045074;
+}
+
