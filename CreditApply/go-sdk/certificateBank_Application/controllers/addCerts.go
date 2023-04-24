@@ -27,7 +27,7 @@ func AddCert(c *gin.Context) {
 		Cert: models.Cert{
 			Metadata: models.Metadata{
 				Id:             0,
-				Number:         generateRandomString(8),
+				Number:         GenerateRandomString(8),
 				IssueDate:      utils.GetTime(),
 				ValidityPeriod: vpInt,
 				CertName:       c.PostForm("CertName"),
@@ -40,7 +40,8 @@ func AddCert(c *gin.Context) {
 	}
 	//agencyName, _ := c.Request.Cookie("agencyName")
 	cert.Cert.Agencies.AgencyName = "清华大学"
-	cert.Cert.Agencies.Address, err = cert.Cert.Agencies.QueryAddressByName()
+	//cert.Cert.Agencies.Address, err = cert.Cert.Agencies.QueryAddressByName()
+	cert.Cert.Agencies.Address = "0x83309d045a19c44dc3722d15a6abd472f95866ac"
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"add_status": "add_err",
@@ -56,7 +57,8 @@ func AddCert(c *gin.Context) {
 		fmt.Print("error : ", err)
 		return
 	}
-	err = services.IssueCert(cert)
+	certTgtHash := cert.TargetHash()
+	err = services.IssueCert(cert, certTgtHash)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"add_status": "add_err",
@@ -70,7 +72,7 @@ func AddCert(c *gin.Context) {
 	defer config.Db.Close()
 }
 
-func generateRandomString(length int) string {
+func GenerateRandomString(length int) string {
 	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	b := make([]byte, length)
 	for i := range b {

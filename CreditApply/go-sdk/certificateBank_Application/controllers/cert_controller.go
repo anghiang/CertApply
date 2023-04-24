@@ -4,7 +4,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/entity"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/models"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/services"
 	"github.com/gin-gonic/gin"
@@ -12,18 +11,6 @@ import (
 	"net/http"
 )
 
-func GenerateCert(c *gin.Context) {
-	var certs entity.Certs
-	err := c.ShouldBindJSON(&certs)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	err = services.IssueCert(certs)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
-	}
-}
 func VerifyCert(c *gin.Context) {
 	//接收上传的文件
 	file, _ := c.FormFile("cert")

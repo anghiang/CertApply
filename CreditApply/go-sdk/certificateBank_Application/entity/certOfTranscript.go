@@ -49,24 +49,26 @@ func (t *TranscriptCert) CalTranscriptFieldHash() (unSortedHash [][32]byte) {
 		}
 		UFieldValue := UserV.Field(i).Interface()
 
-		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("\"%s\":\"%v\"%v", UFieldName, UFieldValue, salt)), "\n")))
+		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", UFieldName, UFieldValue, salt)), "\n")))
 		unSortedHash = append(unSortedHash, dataHash)
 	}
 
-	//for _, tc := range t.Transcript.Course {
-	//	CourseV := reflect.ValueOf(tc)
-	//	CourseT := CourseV.Type()
-	//	for i := 0; i < CourseT.NumField(); i++ {
-	//		CFieldName := CourseT.Field(i).Name
-	//		if CFieldName == "password" {
-	//			continue
-	//		}
-	//		CFieldValue := CourseV.Field(i).Interface()
-	//
-	//		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("\"%s\":\"%v\"%v", UFieldName, UFieldValue, salt)), "\n")))
-	//		unSortedHash = append(unSortedHash, dataHash)
-	//	}
-	//}
+	for _, tc := range t.Transcript.Course {
+		CourseV := reflect.ValueOf(tc)
+		CourseT := CourseV.Type()
+		for i := 0; i < CourseT.NumField(); i++ {
+			CFieldName := CourseT.Field(i).Name
+			if CFieldName == "password" {
+				continue
+			}
+			CFieldValue := CourseV.Field(i).Interface()
+
+			dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", CFieldName, CFieldValue, salt)), "\n")))
+			unSortedHash = append(unSortedHash, dataHash)
+		}
+	}
+	ctHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", "CertType", t.Transcript.CertType, salt)), "\n")))
+	unSortedHash = append(unSortedHash, ctHash)
 
 	if len(t.HiddenData) != 0 {
 		for i := 0; i < len(t.HiddenData); i++ {
@@ -78,8 +80,8 @@ func (t *TranscriptCert) CalTranscriptFieldHash() (unSortedHash [][32]byte) {
 	return unSortedHash
 }
 
-func (c *Certs) TranscriptTargetHash() [32]byte {
-	hash := c.CalFieldHash()
+func (t *TranscriptCert) TranscriptTargetHash() [32]byte {
+	hash := t.CalTranscriptFieldHash()
 	sort.Slice(hash, func(i, j int) bool {
 		return bytes.Compare(hash[i][:], hash[j][:]) == -1
 	})

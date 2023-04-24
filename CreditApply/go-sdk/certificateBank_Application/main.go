@@ -77,12 +77,13 @@ func main() {
 	r.Static("/assets", "certificateBank_Application/assets")
 	r.LoadHTMLGlob("certificateBank_Application/template/*")
 	r.GET("/PreviewShow", controllers.PreviewShow)
-	r.POST("/NewCert", controllers.GenerateCert)
 	r.POST("/VerifyCert", controllers.VerifyCert)
 	r.GET("/CertToBlock", controllers.GetCertBlockNum)
 	r.POST("/download", controllers.Download)
 	r.POST("/addCert", controllers.AddCert)
 	r.GET("/addCertShow", controllers.AddCertShow)
+	r.GET("/login", controllers.LoginShow)
+	r.POST("/addTranscript", controllers.AddTranscript)
 	r.Run("localhost:8089")
 
 }

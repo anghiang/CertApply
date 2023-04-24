@@ -273,19 +273,29 @@
 			var courses = $('input[id^="course-"]').map(function () {
 				return $(this).val();
 			}).get();
-			var data = $.map(scores, function (score, i) {
+			var courseObj = $.map(scores, function (score, i) {
 				return {
-					course: courses[i],
-					score: score
+					Course: courses[i],
+					Score: parseFloat(score)
 				};
 			});
-			formData.append('courses', JSON.stringify(data))
+			var data = {
+				CertName: $('#certName').val(),
+				Address: $('#address').val(),
+				ValidityPeriod: $('#validityPeriod').val(),
+				Courses:JSON.stringify(courseObj)
+			};
 			$.ajax({
 				url: '/addTranscript',
 				type: 'POST',
-				data: formData,
+				data: data,
 				success: function (data) {
-
+					if (data.add_status=="add_ok"){
+						alert("添加成绩单成功")
+						window.location.reload()
+					}else{
+						alert("添加失败")
+					}
 				}
 			})
 		}

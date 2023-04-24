@@ -19,11 +19,11 @@ type Course struct {
 	Score      float64
 }
 
-func (t *Transcript) AddTranscript(address string) error {
+func (t *Transcript) AddTranscript() error {
 	defer config.Db.Close()
 
 	t.CertType = 2
-	uid, _ := QueryUidByAddress(address)
+	uid, _ := QueryUidByAddress(t.Users.Address)
 	res, err := config.Db.Exec("insert into cert(uid,certNum,issueDate,validityPeriod,agencyId,signature,certName,certType) values (?,?,?,?,?,?,?,?)", uid, t.Metadata.Number, t.Metadata.IssueDate, t.Metadata.ValidityPeriod, t.Agencies.Id, t.Metadata.Signature, t.Metadata.CertName, t.CertType)
 
 	if err != nil {
@@ -68,7 +68,3 @@ func (t *Transcript) QueryTranscriptsByUser(address string) (trans []Transcript,
 	}
 	return trans, nil
 }
-
-//func (t *Transcript)()  {
-//
-//}

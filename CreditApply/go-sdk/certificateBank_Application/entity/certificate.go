@@ -71,8 +71,8 @@ func (c *Certs) CalFieldHash() (unSortedHash [][32]byte) {
 		unSortedHash = append(unSortedHash, dataHash)
 	}
 
-	signHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", "CertType", c.Cert.CertType, salt)), "\n")))
-	unSortedHash = append(unSortedHash, signHash)
+	ctHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", "CertType", c.Cert.CertType, salt)), "\n")))
+	unSortedHash = append(unSortedHash, ctHash)
 
 	if len(c.HiddenData) != 0 {
 		for i := 0; i < len(c.HiddenData); i++ {
