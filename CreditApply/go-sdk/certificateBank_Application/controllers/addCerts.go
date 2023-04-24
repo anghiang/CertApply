@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/config"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/entity"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/models"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/services"
@@ -17,6 +18,8 @@ func AddCertShow(c *gin.Context) {
 }
 
 func AddCert(c *gin.Context) {
+	defer config.Db.Close()
+
 	var cert entity.Certs
 	certName := c.PostForm("CertName")
 	address := c.PostForm("Address")
@@ -33,15 +36,13 @@ func AddCert(c *gin.Context) {
 		cert.Cert.Metadata.ValidityPeriod = vp
 	}
 	cert.Cert.Agencies.AgencyName = "清华"
-	cert.Cert.Agencies.Address = "0xu2hfuaihvcuwerhuiiwi"
+	cert.Cert.Agencies.Address = "0x7fc53f13005b12cc6ba7faf415a1e8c194874b83"
 
 	uname, err := models.QueryUNameByAddress(address)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"add_staute": "add_err",
+			"add_status": "add_err",
 		})
-		panic(err)
-
 	}
 	cert.Cert.Users.UserName = uname
 	cert.Cert.Users.Address = address
@@ -50,10 +51,12 @@ func AddCert(c *gin.Context) {
 	//cert.Cert.Metadata.TargetHash =
 	err = services.IssueCert(cert)
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusOK, gin.H{
+			"add_status": "add_ok",
+		})
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"add_staute": "add_ok",
+		"add_status": "add_ok",
 	})
 }
 

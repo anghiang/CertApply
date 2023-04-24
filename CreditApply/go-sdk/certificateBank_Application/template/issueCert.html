@@ -257,7 +257,12 @@
 				type: 'POST',
 				data: data,
 				success: function (data) {
-					console.log(data)
+					if (data.add_status=="add_ok"){
+						alert("添加证书成功")
+						window.location.reload()
+					}else{
+						alert("添加失败")
+					}
 				}
 			})
 

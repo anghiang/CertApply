@@ -13,6 +13,7 @@ type Cert struct {
 }
 
 func (c *Cert) AddCert() error {
+	defer config.Db.Close()
 	c.CertType = 1
 	uid, err := QueryUidByAddress(c.Users.Address)
 	if err != nil {

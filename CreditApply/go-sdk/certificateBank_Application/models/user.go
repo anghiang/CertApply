@@ -1,6 +1,9 @@
 package models
 
-import "github.com/FISCO-BCOS/go-sdk/certificateBank_Application/config"
+import (
+	"fmt"
+	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/config"
+)
 
 // User 用户
 type User struct {
@@ -11,13 +14,13 @@ type User struct {
 }
 
 func QueryUidByAddress(address string) (uid int64, err error) {
+	fmt.Println(address)
 	row := config.Db.QueryRow("select id from users where address = ?", address)
 	err = row.Scan(&uid)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 		return -1, err
 	}
-	defer config.Db.Close()
 	return uid, nil
 }
 
@@ -27,6 +30,5 @@ func QueryUNameByAddress(address string) (name string, err error) {
 	if err != nil {
 		return "", err
 	}
-	defer config.Db.Close()
 	return name, nil
 }

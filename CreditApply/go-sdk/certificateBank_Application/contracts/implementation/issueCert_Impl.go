@@ -11,7 +11,7 @@ import (
 	"math/big"
 )
 
-var contractAddress = common.HexToAddress("0x5bf5c94f6841581047a93477526d9a84c8bfedb6")
+var contractAddress = common.HexToAddress("0x2592a8e8245175c80877afed7907348e301889bb")
 
 // 合约实例 instance
 var instance *interfaces.IssueCert

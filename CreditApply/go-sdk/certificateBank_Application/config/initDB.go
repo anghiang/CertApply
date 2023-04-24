@@ -9,7 +9,7 @@ import (
 var Db *sql.DB
 
 func Init() {
-	dsn := "root:12345678@tcp(127.0.0.1:3306)/blockcertapplication"
+	dsn := "root:123456@tcp(127.0.0.1:3306)/cert_apply"
 	var err error
 	Db, err = sql.Open("mysql", dsn)
 	if err != nil {
