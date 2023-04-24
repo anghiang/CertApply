@@ -10,13 +10,13 @@ type Agency struct {
 	password   string
 }
 
-func QueryIdByAddress(address string) (uid int64, err error) {
-	row := config.Db.QueryRow("select id from agency where address = ?", address)
-	err = row.Scan(&uid)
+func (a *Agency) QueryAddressByName() (string, error) {
+	row := config.Db.QueryRow("select address from agency where mechanismName = ?", a.AgencyName)
+	err := row.Scan(&a.Address)
 	if err != nil {
 		panic(err)
-		return -1, err
+		return "", err
 	}
 	defer config.Db.Close()
-	return uid, nil
+	return a.Address, nil
 }

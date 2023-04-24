@@ -18,46 +18,56 @@ func AddCertShow(c *gin.Context) {
 }
 
 func AddCert(c *gin.Context) {
-	defer config.Db.Close()
-
-	var cert entity.Certs
-	certName := c.PostForm("CertName")
-	address := c.PostForm("Address")
 	validityPeriod := c.PostForm("ValidityPeriod")
-
-	cert.Cert.CertType = 1
-	cert.Cert.Metadata.CertName = certName
-	cert.Cert.Metadata.Number = generateRandomString(8)
-	cert.Cert.Metadata.IssueDate = utils.GetTime()
-	vp, err := strconv.Atoi(validityPeriod)
+	vpInt, err := strconv.Atoi(validityPeriod)
 	if err != nil {
-		fmt.Println("转换失败：", err)
-	} else {
-		cert.Cert.Metadata.ValidityPeriod = vp
+		c.JSON(http.StatusBadRequest, err)
 	}
-	cert.Cert.Agencies.AgencyName = "清华"
-	cert.Cert.Agencies.Address = "0x7fc53f13005b12cc6ba7faf415a1e8c194874b83"
-
-	uname, err := models.QueryUNameByAddress(address)
+	cert := entity.Certs{
+		Cert: models.Cert{
+			Metadata: models.Metadata{
+				Id:             0,
+				Number:         generateRandomString(8),
+				IssueDate:      utils.GetTime(),
+				ValidityPeriod: vpInt,
+				CertName:       c.PostForm("CertName"),
+			},
+			Users: models.User{
+				Address: c.PostForm("Address"),
+			},
+			CertType: 1,
+		},
+	}
+	//agencyName, _ := c.Request.Cookie("agencyName")
+	cert.Cert.Agencies.AgencyName = "清华大学"
+	cert.Cert.Agencies.Address, err = cert.Cert.Agencies.QueryAddressByName()
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"add_status": "add_err",
 		})
+		fmt.Print("error : ", err)
+		return
 	}
-	cert.Cert.Users.UserName = uname
-	cert.Cert.Users.Address = address
-	cert.Cert.Metadata.Signature = "qwvijnwijnvijbwivhjbihjwbqivbijwq"
-
-	//cert.Cert.Metadata.TargetHash =
+	cert.Cert.Users.UserName, err = cert.Cert.Users.QueryUNameByAddress()
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"add_status": "add_err",
+		})
+		fmt.Print("error : ", err)
+		return
+	}
 	err = services.IssueCert(cert)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"add_status": "add_ok",
+			"add_status": "add_err",
 		})
+		fmt.Print("error : ", err)
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"add_status": "add_ok",
 	})
+	defer config.Db.Close()
 }
 
 func generateRandomString(length int) string {
