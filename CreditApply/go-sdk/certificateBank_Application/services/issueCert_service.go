@@ -10,7 +10,8 @@ import (
 )
 
 // IssueCert 颁发证书
-func IssueCert(_cert entity.Certs) (error) {
+func IssueCert(_cert entity.Certs) error {
+
 	//计算证书字段的TargetHash
 	certTgtHash := _cert.TargetHash()
 	_cert.Cert.Metadata.TargetHash = hex.EncodeToString(certTgtHash[:])
@@ -20,6 +21,7 @@ func IssueCert(_cert entity.Certs) (error) {
 		return err
 	}
 	if res {
+		_cert.Cert.AddCert()
 		_, err := _cert.MarshalJSON()
 		if err != nil {
 			return err

@@ -42,7 +42,7 @@ func (c *Certs) CalFieldHash() (unSortedHash [][32]byte) {
 	for i := 0; i < MetadataT.NumField(); i++ {
 		fieldName := MetadataT.Field(i).Name
 		fieldValue := MetadataV.Field(i).Interface()
-		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("\"%s\":\"%v\"%v", fieldName, fieldValue, salt)), "\n")))
+		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", fieldName, fieldValue, salt)), "\n")))
 		unSortedHash = append(unSortedHash, dataHash)
 	}
 	AgenciesV := reflect.ValueOf(c.Cert.Agencies)
@@ -54,7 +54,7 @@ func (c *Certs) CalFieldHash() (unSortedHash [][32]byte) {
 		}
 		AFieldValue := AgenciesV.Field(i).Interface()
 
-		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("\"%s\":\"%v\"%v", AFieldName, AFieldValue, salt)), "\n")))
+		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", AFieldName, AFieldValue, salt)), "\n")))
 		unSortedHash = append(unSortedHash, dataHash)
 	}
 
@@ -67,9 +67,12 @@ func (c *Certs) CalFieldHash() (unSortedHash [][32]byte) {
 		}
 		UFieldValue := UserV.Field(i).Interface()
 
-		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("\"%s\":\"%v\"%v", UFieldName, UFieldValue, salt)), "\n")))
+		dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", UFieldName, UFieldValue, salt)), "\n")))
 		unSortedHash = append(unSortedHash, dataHash)
 	}
+
+	signHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", "CertType", c.Cert.CertType, salt)), "\n")))
+	unSortedHash = append(unSortedHash, signHash)
 
 	if len(c.HiddenData) != 0 {
 		for i := 0; i < len(c.HiddenData); i++ {

@@ -14,7 +14,12 @@ type Cert struct {
 
 func (c *Cert) AddCert() error {
 	c.CertType = 1
-	res, err := config.Db.Exec("insert into cert(uid,certNum,issueDate,validityPeriod,agencyId,signature,certName,certType) values (?,?,?,?,?,?,?,?)", c.Users.Id, c.Metadata.Number, c.Metadata.IssueDate, c.Metadata.ValidityPeriod, c.Agencies.Id, c.Metadata.Signature, c.Metadata.CertName, c.CertType)
+	uid, err := QueryUidByAddress(c.Users.Address)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := config.Db.Exec("insert into cert(uid,certNum,issueDate,validityPeriod,agencyId,signature,certName,certType) values (?,?,?,?,?,?,?,?)", uid, c.Metadata.Number, c.Metadata.IssueDate, c.Metadata.ValidityPeriod, c.Agencies.Id, c.Metadata.Signature, c.Metadata.CertName, c.CertType)
 	if err != nil {
 		return err
 	}

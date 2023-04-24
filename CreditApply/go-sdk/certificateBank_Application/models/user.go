@@ -20,3 +20,13 @@ func QueryUidByAddress(address string) (uid int64, err error) {
 	defer config.Db.Close()
 	return uid, nil
 }
+
+func QueryUNameByAddress(address string) (name string, err error) {
+	row := config.Db.QueryRow("select name from users where address = ?", address)
+	err = row.Scan(&name)
+	if err != nil {
+		return "", err
+	}
+	defer config.Db.Close()
+	return name, nil
+}

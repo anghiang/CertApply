@@ -22,7 +22,6 @@ type Course struct {
 func (t *Transcript) AddTranscript(address string) error {
 	t.CertType = 2
 	uid, _ := QueryUidByAddress(address)
-
 	res, err := config.Db.Exec("insert into cert(uid,certNum,issueDate,validityPeriod,agencyId,signature,certName,certType) values (?,?,?,?,?,?,?,?)", uid, t.Metadata.Number, t.Metadata.IssueDate, t.Metadata.ValidityPeriod, t.Agencies.Id, t.Metadata.Signature, t.Metadata.CertName, t.CertType)
 
 	if err != nil {
