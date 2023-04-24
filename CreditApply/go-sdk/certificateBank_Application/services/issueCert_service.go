@@ -10,11 +10,11 @@ import (
 )
 
 // IssueCert 颁发证书
-func IssueCert(_cert entity.Certs) error {
+func IssueCert(_cert entity.Certs, certTgtHash [32]byte) error {
 
 	//计算证书字段的TargetHash
-	certTgtHash := _cert.TargetHash()
 	_cert.Cert.Metadata.TargetHash = hex.EncodeToString(certTgtHash[:])
+
 	//将证书的TargetHash存放至合约上
 	_, res, err := implementation.Issue(certTgtHash)
 	if err != nil {
@@ -22,10 +22,24 @@ func IssueCert(_cert entity.Certs) error {
 	}
 	if res {
 		_cert.Cert.AddCert()
-		_, err := _cert.MarshalJSON()
-		if err != nil {
-			return err
-		}
+
+	}
+	return nil
+}
+
+// IssueCert 颁发证书
+func IssueTranscript(_transcript entity.TranscriptCert, certTgtHash [32]byte) error {
+
+	//计算证书字段的TargetHash
+	_transcript.Transcript.Metadata.TargetHash = hex.EncodeToString(certTgtHash[:])
+
+	//将证书的TargetHash存放至合约上
+	_, res, err := implementation.Issue(certTgtHash)
+	if err != nil {
+		return err
+	}
+	if res {
+		_transcript.Transcript.AddTranscript()
 
 	}
 	return nil

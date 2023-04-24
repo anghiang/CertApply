@@ -14,7 +14,6 @@ func (a *Agency) QueryAddressByName() (string, error) {
 	row := config.Db.QueryRow("select address from agency where mechanismName = ?", a.AgencyName)
 	err := row.Scan(&a.Address)
 	if err != nil {
-		panic(err)
 		return "", err
 	}
 	defer config.Db.Close()
