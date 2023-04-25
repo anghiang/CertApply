@@ -84,6 +84,9 @@ func main() {
 	r.GET("/addCertShow", controllers.AddCertShow)
 	r.GET("/login", controllers.LoginShow)
 	r.POST("/addTranscript", controllers.AddTranscript)
+	r.GET("/certList", controllers.CertList)
+	r.GET("/verify", controllers.VerifyShow)
+	r.GET("revoke", controllers.RevokeShow)
 	r.Run("localhost:8089")
 
 }

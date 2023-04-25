@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/config"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/entity"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/models"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/services"
@@ -69,7 +68,6 @@ func AddCert(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"add_status": "add_ok",
 	})
-	defer config.Db.Close()
 }
 
 func GenerateRandomString(length int) string {

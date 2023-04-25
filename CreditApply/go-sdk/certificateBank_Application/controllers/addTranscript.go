@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/config"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/entity"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/models"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/services"
@@ -17,7 +16,10 @@ func AddTranscript(c *gin.Context) {
 	validityPeriod := c.PostForm("ValidityPeriod")
 	vpInt, err := strconv.Atoi(validityPeriod)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(http.StatusOK, gin.H{
+			"add_status": "add_err",
+		})
+		fmt.Print("error : ", err)
 	}
 	transcript := entity.TranscriptCert{
 		Transcript: models.Transcript{
@@ -76,5 +78,4 @@ func AddTranscript(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"add_status": "add_ok",
 	})
-	defer config.Db.Close()
 }

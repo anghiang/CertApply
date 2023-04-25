@@ -28,13 +28,13 @@ func (c *Cert) AddCert() error {
 	fmt.Println("res := ", id)
 	return nil
 }
-func (c *Cert) QueryCertByUser(address string) ([]Cert, error) {
+func (c *Cert) QueryCertsByUser() ([]Cert, error) {
 	c.CertType = 1
-	rows, err := config.Db.Query("select c.id, c.certNum,c.issueDate,c.validityPeriod,c.certName a.mechanismName from cert as c inner join `users` as u on c.uid = u.id inner join agency as a on c.agencyId = a.id where u.address=? and c.certType=?", address, c.CertType)
+	rows, err := config.Db.Query("select c.id, c.certNum,c.issueDate,c.validityPeriod,c.certName,a.mechanismName from cert as c inner join `users` as u on c.uid = u.id inner join agency as a on c.agencyId = a.id where u.address=? and c.certType=?", "0x5236A3B854232A845ae4AA7F56Df87B2377A9f34", c.CertType)
 	if err != nil {
 		return nil, err
 	}
-	defer config.Db.Close()
+
 	var certSlice []Cert
 	//scan:
 	for rows.Next() {
