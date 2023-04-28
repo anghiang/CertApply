@@ -4,11 +4,14 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/entity"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/models"
 	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/services"
+	"github.com/FISCO-BCOS/go-sdk/certificateBank_Application/utils"
 	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 func VerifyCert(c *gin.Context) {
@@ -48,53 +51,76 @@ func GetCertBlockNum(c *gin.Context) {
 }
 
 func Download(c *gin.Context) {
+	var trans entity.TranscriptCert
 	certName := c.PostForm("CertName")
 	userName := c.PostForm("UserName")
 	issueDate := c.PostForm("IssueDate")
 	validityPeriod := c.PostForm("ValidityPeriod")
+	agencyName := c.PostForm("AgencyName")
+	signature := c.PostForm("Signature")
+	certType := c.PostForm("CertType")
+	CertNum := c.PostForm("CertNum")
+	AgencyAddress := c.PostForm("AgencyAddress")
 	hiddenData := c.PostFormArray("HiddenData")
 	courses := c.PostFormArray("Course")
-	fmt.Println(certName)
-	fmt.Println(userName)
-	fmt.Println(issueDate)
-	fmt.Println(validityPeriod)
-	fmt.Println(courses[0])
-	fmt.Println(hiddenData[0])
+
+	trans.Transcript.Metadata.Number = CertNum
+	trans.Transcript.Metadata.IssueDate = issueDate
+	vp, err := strconv.Atoi(validityPeriod)
+	if err != nil {
+		fmt.Println(vp)
+	}
+	trans.Transcript.Metadata.ValidityPeriod = vp
+	trans.Transcript.Metadata.CertName = certName
+	trans.Transcript.Metadata.Signature = signature
+	trans.Transcript.Agencies.AgencyName = agencyName
+	trans.Transcript.Agencies.Address = AgencyAddress
+	trans.Transcript.Users.UserName = userName
+
+	//ua, err := c.Cookie("userAddr")
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	ua := "iowaoiejfiwoejoifwoie"
+
+	trans.Transcript.Users.Address = ua
+
+	certTgtHash := trans.TranscriptTargetHash()
+	trans.Transcript.Metadata.TargetHash = hex.EncodeToString(certTgtHash[:])
+	ct, err := strconv.Atoi(certType)
+	if err != nil {
+		fmt.Println(vp)
+	}
+	trans.Transcript.CertType = ct
 
 	var Courses []models.Course
-	err := json.Unmarshal([]byte(courses[0]), &Courses)
+	err = json.Unmarshal([]byte(courses[0]), &Courses)
 	if err != nil {
 		fmt.Println("JSON unmarshal error:", err)
 		return
 	}
-
-	for _, c := range Courses {
-		fmt.Printf("CourseName: %s, Score: %.2f\n", c.CourseName, c.Score)
-	}
+	trans.Transcript.Course = Courses
 
 	var arr []string
 	err = json.Unmarshal([]byte(hiddenData[0]), &arr)
 	if err != nil {
 		fmt.Println(err)
 	}
+	trans.HiddenData = arr
+
 	//var _cert entity.Certs
 	//
-	//_, err := _cert.MarshalJSON()
-	//if err != nil {
-	//	return err
-	//}
-	////生成.blkcert证书，并返回至前端
-	//certBytes, fileName := utils.NewFile(certJson)
-	////将证书数据存储至mysql数据库
-	//err = _cert.Cert.AddCert()
-	//if err != nil {
-	//}
-	//if err != nil {
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	//	return
-	//}
-	//c.Header("Content-Type", "application/octet-stream")
-	//c.Header("Content-Disposition", fmt.Sprintf("attachment; filename=%s", fileName))
-	//c.Writer.Write(certBytes)
-	//c.JSON(http.StatusOK, gin.H{"message": "success"})
+	certJson, err := trans.MarshalJSON()
+	if err != nil {
+		fmt.Println(err)
+	}
+	//生成.blkcert证书，并返回至前端
+	certBytes, fileName := utils.NewFile(certJson)
+
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", fmt.Sprintf("attachment; filename=%s", fileName))
+	c.Header("fileName", fileName)
+	c.Writer.Write(certBytes)
+
+	//c.JSON(http.StatusOK, gin.H{"download_status": "success"})
 }

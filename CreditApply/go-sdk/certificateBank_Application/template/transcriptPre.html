@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/verify.css">
-    <link rel="stylesheet" href="assets/css/preview.css">
+    <link rel="stylesheet" href="assets/css/transcriptPre.css">
     <link rel="stylesheet" href="assets/fonts/icon/iconfont.css">
     <style>
         .align-items-center {
@@ -68,17 +68,81 @@
 <div class="course-cat-area-02 blue-dark-bg pt-130 pb-100">
     <div class="container">
         <div class="row">
-            <div class="col-xl-10 col-lg-10 offset-1 previewArea" id="fileArea">
-                <div class="row marg" id="certName">
-                    <div class="col-xl-10">
-                        <h5 id="CertName">江西软件大学毕业证书</h5>
+            <div class="col-xl-10 col-lg-10 offset-1 previewArea" id="preArea">
+                <div class="row centerB" id="certNameBox">
+                   <h2>区块链技能实操证书</h2>
+                </div>
+
+                <div class="row centerB" id="issueAgencyBox">
+                    <span >颁发机构:</span>
+                </div>
+                <div class="row centerB" id="issueAgency">
+                    <span >江西软件职业技术大学</span>
+                </div>
+
+                <div class="row centerB" id="userNameBox">
+                    <span >授予:</span>
+                </div>
+
+                <div class="row centerB" id="userName">
+                    <span >杨志刚</span>
+                </div>
+
+                <div class="row" id="dateBox">
+                    <div class="col-lg-4 offset-2">
+                        <div class="row centerSpan" >
+                            <span>颁发日期</span>
+                        </div>
+                        <hr>
+                        <div class="row centerSpan" >
+                            <span>2023-04-24</span>
+                        </div>
                     </div>
-                    <div class="col-xl-2" id="">
-                        <a href="javascript:void(0)" id="modify"><span class="iconfont icon-xiugai"></span></a>
+                    <div class="col-lg-4 ">
+                        <div class="row centerSpan">
+                            <span>有效期</span>
+                        </div>
+                        <hr>
+                        <div class="row centerSpan" >
+                            <span>4</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row meta">
+                <div class="row " id="otherInfo">
+                    <div class="col-12 offset-1">
+                        <div class="row">
+                            <div class="col-xl-2">
+                                <span id="CertNumT">证书编号</span>
+                            </div>
+                            <div class="col-xl-8">
+                                <span id="CertNum">jbewhj</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-2">
+                                <span id="AgencyAddressT">机构地址</span>
+                            </div>
+                            <div class="col-xl-8">
+                                <span id="AgencyAddress">0xuawucuucbwev23wucadhu2hf</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-2">
+                                <span id="SignatureT">签名</span>
+                            </div>
+                            <div class="col-xl-3">
+                                <span id="Signature">vesfvsef0xuawusdveawervsfcuucbwev23wucadhu2hf</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" value="1" id="certType">
+                    </div>
+                </div>
+
+                <!-- <div class="row meta">
                     <div class="col-xl-3">
                         <span>姓名</span>
                     </div>
@@ -109,49 +173,7 @@
                 </div>
 
 
-                <div class="row " id="creditTitle">
-                    <div class="col-xl-3">
-                        <h5>我的学分信息：</h5>
-                    </div>
-                </div>
-                <div class="row ">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">课程名称</th>
-                            <th scope="col">分数</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="cs">
-                            <td><span class="courseName">实践课</span> <a href="javascript:void(0)"
-                                                                          class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                            <td><span class="score">120</span> <a href="javascript:void(0)"
-                                                                  class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                        </tr>
-                        <tr class="cs">
-                            <td><span class="courseName">服务分</span> <a href="javascript:void(0)"
-                                                                          class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                            <td><span class="score">123</span> <a href="javascript:void(0)"
-                                                                  class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                        </tr>
-                        <tr class="cs">
-                            <td><span class="courseName">公益分</span> <a href="javascript:void(0)"
-                                                                          class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                            <td><span class="score">145</span> <a href="javascript:void(0)"
-                                                                  class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="row " id="otherInfo">
+                <div class="row " id="otherInfo2">
                     <div class="col-12">
                         <div class="row">
                             <div class="col-xl-3">
@@ -187,10 +209,11 @@
                             <div class="col-xl-3">
                                 <span id="CertType">成绩单</span>
                             </div>
+
                         </div>
                     </div>
 
-                </div>
+                </div> -->
 
             </div>
         </div>

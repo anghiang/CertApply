@@ -1,0 +1,63 @@
+.previewArea {
+	background-image: url("../image/bk3.png");
+	background-size: cover;
+	/* position: relative; */
+}
+
+
+#addBtn {
+	margin-top: 30px;
+	justify-content: center;
+}
+
+#preArea {
+	height: 650px;
+	border-radius: 10px;
+	background-color: aliceblue;
+}
+
+#certNameBox {
+	margin-top: 90px;
+}
+
+.centerB{
+	justify-content: center;
+}
+
+#issueAgencyBox{
+    margin-top: 25px;
+    font-size: 25px;
+}
+
+#issueAgency{
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+#userNameBox{
+    margin-top: 25px;
+    font-size: 25px;
+}
+#userName{
+    margin-top: 10px;
+    font-size: 30px;
+    color: #4c64d8;
+
+}
+hr{
+    margin: 0;
+    padding: 0;
+    border-bottom: 2px solid #ffe599;
+    width: 200px;
+    margin-left: 60px;
+}
+.centerSpan{
+    justify-content: space-around
+}
+#dateBox{
+    margin-top: 50px;
+}
+
+#otherInfo{
+    margin-top: 70px;
+}
