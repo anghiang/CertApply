@@ -2,6 +2,7 @@ package types
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -31,6 +32,22 @@ type Transaction struct {
 	smcrypto bool
 }
 
+func (tx *Transaction) MarshalJson() ([]byte, error) {
+	return json.Marshal(struct {
+		Data     txdata       `json:"data"`
+		Hash     atomic.Value `json:"hash"`
+		Size     atomic.Value `json:"size"`
+		From     atomic.Value `json:"from"`
+		Smcrypto bool         `json:"smcrypto"`
+	}{
+		Data:     tx.data,
+		Hash:     tx.hash,
+		Size:     tx.size,
+		From:     tx.from,
+		Smcrypto: tx.smcrypto,
+	})
+}
+
 type txdata struct {
 	AccountNonce *big.Int        `json:"nonce"    gencodec:"required"`
 	Price        *big.Int        `json:"gasPrice"   gencodec:"required"`
@@ -43,7 +60,6 @@ type txdata struct {
 	ChainID   *big.Int `json:"chainId"    gencodec:"required"`
 	GroupID   *big.Int `json:"groupId"    gencodec:"required"`
 	ExtraData []byte   `json:"extraData"  gencodec:"required"` // rlp:"nil"
-
 	// Signature values
 	V *big.Int `json:"v" gencodec:"required"`
 	R *big.Int `json:"r" gencodec:"required"`

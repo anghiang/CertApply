@@ -3,20 +3,18 @@ package utils
 import (
 	"crypto/ecdsa"
 	"crypto/rand"
-	"crypto/sha256"
 	"fmt"
 )
 
-func SignMsg(msg []byte, _privateKey *ecdsa.PrivateKey) ([]byte, error) {
-	messageHash := sha256.Sum256(msg)
-	signByte, err := ecdsa.SignASN1(rand.Reader, _privateKey, messageHash[:])
+func SignMsg(msg [32]byte, _privateKey *ecdsa.PrivateKey) ([]byte, error) {
+	signByte, err := ecdsa.SignASN1(rand.Reader, _privateKey, msg[:])
 	if err != nil {
 		return nil, fmt.Errorf("sign message error : %v", err)
 	}
 
 	return signByte, nil
 }
-func VerifyMsg(msgHash, signByte []byte, _publicKey *ecdsa.PublicKey) bool {
+func VerifyMsg(msgHash [32]byte, signByte []byte, _publicKey *ecdsa.PublicKey) bool {
 	if ecdsa.VerifyASN1(_publicKey, msgHash[:], signByte) {
 		return true
 	}

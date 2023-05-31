@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wallet</title>
+</head>
+<body>
+<h1 id="ha">
+    hello world!
+</h1>
+
+<input type="text" id="privateKey" placeholder="私钥">
+<button id="stringSubmit">提交</button>
+<form id="pemFileSubmit" enctype="multipart/form-data">
+    <input type="file" id="fileInput" name="file">
+    <button type="submit">上传私钥文件</button>
+</form>
+
+<button id="showList">账户列表</button>
+</body>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../utils/importPrivateKey.js"></script>
+</html>

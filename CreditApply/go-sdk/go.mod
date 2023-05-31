@@ -7,7 +7,9 @@ require (
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
 	github.com/aristanetworks/goarista v0.0.0-20210107181124-fad53805024e // indirect
 	github.com/btcsuite/btcd v0.21.0-beta
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/ethereum/go-ethereum v1.9.16
+	github.com/gin-contrib/sessions v0.0.5 // indirect
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/go-sql-driver/mysql v1.7.0

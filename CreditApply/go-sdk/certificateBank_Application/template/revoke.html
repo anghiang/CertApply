@@ -39,6 +39,10 @@
         .align-items-center{
             margin-top: 20px;
         }
+        .headLink{
+            margin-top: 8px;
+            font-size: 20px;
+        }
     </style>
 
 </head>
@@ -58,10 +62,16 @@
 
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-11 col-9" style="margin-top: 9px;">
+                <div class="col-xl-11 col-lg-11 col-md-11 col-11" style="margin-top: 9px;">
                     <div class="row logo">
-                        <div class="col-xl-5 col-lg-5 col-md-5 col-5">
+                        <div class="col-xl-3 col-lg-5 col-md-5 col-5">
                             <h2 style="color: aliceblue;">BlockCertify</h2>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-2 headLink">
+                            <a href="/addCertShow" style="color: aliceblue;">颁发证书</a>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-2 headLink">
+                            <a href="/revoke" style="color: aliceblue;">撤销证书</a>
                         </div>
                     </div>
                 </div>
@@ -159,10 +169,14 @@
             type: 'POST',
             data: data,
             success: function (data) {
-                if (data.revoke_status == "revoke_ok") {
-                    alert("登入成功")
-                } else {
-                    alert("登入失败")
+                if (data.revoke_status == 400){
+                    alert("撤销失败")
+                }else if (data.revoke_status == 401) {
+                    alert("该证书未被发布")
+                } else if (data.revoke_status == 402){
+                    alert("该证书已被撤销")
+                }else{
+                    alert("证书撤销成功")
                 }
 
             }

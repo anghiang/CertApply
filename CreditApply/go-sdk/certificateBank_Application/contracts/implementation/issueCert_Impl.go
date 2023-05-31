@@ -11,7 +11,7 @@ import (
 	"math/big"
 )
 
-var contractAddress = common.HexToAddress("0x2592a8e8245175c80877afed7907348e301889bb")
+var contractAddress = common.HexToAddress("0x904ed579402ed8bbb80ee7f0eb02e8226d78a70f")
 
 // 合约实例 instance
 var instance *interfaces.IssueCert
@@ -49,15 +49,37 @@ func Issue(_hash [32]byte) (*types.Receipt, bool, error) {
 	}
 	return receipt, true, nil
 }
-func Revoke(_hash [32]byte) bool {
-	_, _, err := session.Revoke(_hash)
+
+func Revoke(_hash [32]byte) (*types.Receipt, error, int) {
+	_, receipt, err := session.Revoke(_hash)
 	if err != nil {
-		fmt.Errorf("contract Revoke error %v", err)
-		return false
+		return nil, err, 400
 	}
-	return true
+	if !IsIssued(_hash) {
+		return nil, errors.New("该证书未被发布"), 401
+	} else if receipt.Output != "0x0000000000000000000000000000000000000000000000000000000000000001" {
+		return nil, errors.New("该证书已被撤销"), 402
+	}
+	return nil, nil, 200
+	//if err != nil {
+	//	fmt.Errorf("contract Revoke error %v", err)
+	//	return nil, false, err
+	//} else if receipt.Output != "0x0000000000000000000000000000000000000000000000000000000000000001" {
+	//	return nil, false, errors.New("撤销失败")
+	//}
+	//return receipt, true, nil
 
 }
+
+func IsRole(_address common.Address) (bool, error) {
+	address := "0x83309d045a19c44dc3722d15a6abd472f95866ac"
+	judge, err := session.IsRole(common.HexToAddress(address))
+	if err != nil {
+		return false, err
+	}
+	return judge, nil
+}
+
 func IsIssued(_hash [32]byte) bool {
 	judge, err := session.IsIssued(_hash)
 	if err != nil || !judge {
@@ -74,8 +96,8 @@ func IsRevoked(_hash [32]byte) bool {
 	}
 	return judge
 }
-func CertToBlkNum(_hash [32]byte) (*big.Int, error) {
-	blockNum, err := session.CertIssued(_hash)
+func RevokeToBlkNum(_hash [32]byte) (*big.Int, error) {
+	blockNum, err := session.CertRevoked(_hash)
 	if err != nil {
 		return nil, err
 	}

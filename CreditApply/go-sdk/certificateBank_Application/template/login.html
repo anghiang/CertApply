@@ -33,6 +33,9 @@
 		.align-items-center{
 			margin-top: 20px;
 		}
+		.nice-select{
+			line-height: 35px;
+		}
 	</style>
 
 </head>
@@ -79,6 +82,7 @@
 								<label for="login_type" class="col-sm-3 col-form-label">登入类型</label>
 								<div class="col-sm-9">
 									<select class="form-control" id="login_type">
+										<option value="student">请选择</option>
 										<option value="student">学生登入</option>
 										<option value="institution">机构登入</option>
 									</select>
@@ -190,6 +194,7 @@
 				success: function (data) {
 					if(data.login_status=="login_ok"){
 						alert("登入成功")
+						window.location.href = "/certList"
 					}else{
 						alert("登入失败")
 					}
@@ -201,13 +206,15 @@
 				AgencyAddress:$("#institutionAddress").val(),
 				Password:$("#password").val()
 			}
+			console.log(data)
 			$.ajax({
 				url: '/agencyLogin',
 				type: 'POST',
 				data: data,
 				success: function (data) {
+					console.log("data ",data)
 					if(data.login_status=="login_ok"){
-						alert("登入成功")
+						window.location.href = "/addCertShow"
 					}else{
 						alert("登入失败")
 					}

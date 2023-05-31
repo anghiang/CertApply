@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "ChichangWallet",
+  "version": "1.0",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "browser_action": {
+    "default_popup": "/views/index.html"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["assets/js/jquery.min.js","utils/importPrivateKey.js"]
+    }
+  ]
+}

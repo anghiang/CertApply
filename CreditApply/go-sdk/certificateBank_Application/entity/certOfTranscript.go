@@ -3,6 +3,7 @@ package entity
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/gob"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -12,18 +13,23 @@ import (
 	"strings"
 )
 
-type TranscriptCert struct {
-	Transcript models.Transcript
-	HiddenData []string
+func init() {
+	gob.Register(&TranscriptCert{})
 }
 
+type TranscriptCert struct {
+	Transcript models.Transcript `json:"transcript"`
+	HiddenData []string          `json:"hidden_data"`
+}
+
+const salt = "jhblockchain"
+
 func (t *TranscriptCert) CalTranscriptFieldHash() (unSortedHash [][32]byte) {
-	const salt = "jhblockchain"
 	MetadataV := reflect.ValueOf(t.Transcript.Metadata)
 	MetadataT := MetadataV.Type()
 	for i := 0; i < MetadataT.NumField(); i++ {
 		fieldName := MetadataT.Field(i).Name
-		if fieldName == "Signature" {
+		if fieldName == "Signature" || fieldName == "TargetHash" || fieldName == "Id" {
 			continue
 		}
 		fieldValue := MetadataV.Field(i).Interface()
@@ -66,6 +72,13 @@ func (t *TranscriptCert) CalTranscriptFieldHash() (unSortedHash [][32]byte) {
 				continue
 			}
 			CFieldValue := CourseV.Field(i).Interface()
+			if CFieldName == "CourseName" && CFieldValue == "" {
+				continue
+			}
+			if CFieldName == "Score" && CFieldValue == float64(0) {
+				fmt.Println(CFieldValue)
+				continue
+			}
 
 			dataHash := sha256.Sum256([]byte(strings.TrimSuffix(strings.TrimSpace(fmt.Sprintf("%s:%v%v", CFieldName, CFieldValue, salt)), "\n")))
 			unSortedHash = append(unSortedHash, dataHash)
@@ -77,10 +90,15 @@ func (t *TranscriptCert) CalTranscriptFieldHash() (unSortedHash [][32]byte) {
 	if len(t.HiddenData) != 0 {
 		for i := 0; i < len(t.HiddenData); i++ {
 			var arr [32]byte
-			copy(arr[:], t.HiddenData[i])
+			hash, err := hex.DecodeString(t.HiddenData[i])
+			if err != nil {
+				fmt.Println(err)
+			}
+			copy(arr[:], hash)
 			unSortedHash = append(unSortedHash, arr)
 		}
 	}
+
 	return unSortedHash
 }
 
@@ -96,6 +114,19 @@ func (t *TranscriptCert) TranscriptTargetHash() [32]byte {
 	}
 	b := sha256.Sum256([]byte(temp))
 	return b
+}
+
+func CalHidHash(_hiddenData []string) []string {
+	var hashByt [][32]byte
+	var _hash []string
+	for _, val := range _hiddenData {
+		temp := sha256.Sum256([]byte(val + salt))
+		hashByt = append(hashByt, temp)
+	}
+	for _, hash := range hashByt {
+		_hash = append(_hash, hex.EncodeToString(hash[:]))
+	}
+	return _hash
 }
 
 func (t *TranscriptCert) MarshalJSON() ([]byte, error) {
@@ -146,9 +177,9 @@ func (t *TranscriptCert) MarshalJSON() ([]byte, error) {
 				AgencyName string `json:"agency_name"`
 			} `json:"agencies"`
 
-			CertType   int      `json:"cert_type"`
-			HiddenData []string `json:"hidden_data"`
+			CertType int `json:"cert_type"`
 		}
+		HiddenData []string `json:"hidden_data"`
 	}{
 		Transcript: struct {
 			Metadata struct {
@@ -172,8 +203,7 @@ func (t *TranscriptCert) MarshalJSON() ([]byte, error) {
 				AgencyName string `json:"agency_name"`
 			} `json:"agencies"`
 
-			CertType   int      `json:"cert_type"`
-			HiddenData []string `json:"hidden_data"`
+			CertType int `json:"cert_type"`
 		}{
 			Metadata: struct {
 				Number         string `json:"number"`
@@ -205,9 +235,17 @@ func (t *TranscriptCert) MarshalJSON() ([]byte, error) {
 				Address:    t.Transcript.Agencies.Address,
 				AgencyName: t.Transcript.Agencies.AgencyName,
 			},
-			CertType:   t.Transcript.CertType,
-			HiddenData: t.HiddenData,
-		}},
+			CertType: t.Transcript.CertType,
+		},
+		HiddenData: t.HiddenData,
+	},
 		"", " ",
 	)
+}
+func (t *TranscriptCert) UnMarshalJson(data []byte) error {
+	err := json.Unmarshal(data, t)
+	if err != nil {
+		return fmt.Errorf("Error Unmarshalling JSON: %v", err)
+	}
+	return nil
 }

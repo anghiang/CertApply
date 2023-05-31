@@ -4,12 +4,11 @@ package conf
 import (
 	"bytes"
 	"fmt"
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"io/ioutil"
 	"os"
 	"strings"
-
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
 )
 
 // Config contains configuration items for sdk
@@ -29,7 +28,7 @@ type Config struct {
 }
 
 // ParseConfigFile parses the configuration from toml config file
-func ParseConfigFile(cfgFile string) ([]Config, error) {
+func ParseConfigFile(cfgFile, keyFile string) ([]Config, error) {
 	file, err := os.Open(cfgFile)
 	if err != nil {
 		return nil, fmt.Errorf("open file failed, err: %v", err)
@@ -54,11 +53,11 @@ func ParseConfigFile(cfgFile string) ([]Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("read file failed, err: %v", err)
 	}
-	return ParseConfig(buffer)
+	return ParseConfig(buffer, keyFile)
 }
 
 // ParseConfig parses the configuration from []byte
-func ParseConfig(buffer []byte) ([]Config, error) {
+func ParseConfig(buffer []byte, keyFile string) ([]Config, error) {
 	viper.SetConfigType("toml")
 	viper.SetDefault("SMCrypto", false)
 	viper.SetDefault("Network.Type", "rpc")
@@ -90,7 +89,7 @@ func ParseConfig(buffer []byte) ([]Config, error) {
 		return nil, fmt.Errorf("chain has not been set")
 	}
 	if viper.IsSet("Account") {
-		accountKeyFile := viper.GetString("Account.KeyFile")
+		accountKeyFile := keyFile
 		keyBytes, curve, err := LoadECPrivateKeyFromPEM(accountKeyFile)
 		if err != nil {
 			return nil, fmt.Errorf("parse private key failed, err: %v", err)

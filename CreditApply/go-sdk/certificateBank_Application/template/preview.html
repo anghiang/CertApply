@@ -32,6 +32,9 @@
         .align-items-center {
             margin-top: 20px;
         }
+        #Signature {
+            word-wrap: break-word;
+        }
     </style>
 </head>
 
@@ -71,7 +74,7 @@
             <div class="col-xl-10 col-lg-10 offset-1 previewArea" id="fileArea">
                 <div class="row marg" id="certName">
                     <div class="col-xl-10">
-                        <h5 id="CertName">江西软件大学毕业证书</h5>
+                        <h5 id="CertName">{{.certificate.Metadata.CertName}}</h5>
                     </div>
                     <div class="col-xl-2" id="">
                         <a href="javascript:void(0)" id="modify"><span class="iconfont icon-xiugai"></span></a>
@@ -83,13 +86,13 @@
                         <span>姓名</span>
                     </div>
                     <div class="col-xl-3">
-                        ：<span id="UserName">杨志刚</span>
+                        ：<span id="UserName">{{.certificate.Users.UserName}}</span>
                     </div>
                     <div class="col-xl-3">
                         <span>颁发日期</span>
                     </div>
                     <div class="col-xl-3">
-                        ：<span id="IssueDate">2023-4-8</span>
+                        ：<span id="IssueDate">{{.certificate.Metadata.IssueDate}}</span>
                     </div>
                 </div>
 
@@ -98,13 +101,13 @@
                         <span>有效期</span>
                     </div>
                     <div class="col-xl-3">
-                        ：<span id="ValidityPeriod">4</span>
+                        ：<span id="ValidityPeriod">{{.certificate.Metadata.ValidityPeriod}}</span>
                     </div>
                     <div class="col-xl-3">
                         <span>颁发机构</span>
                     </div>
                     <div class="col-xl-3">
-                        ：<span id="AgencyName">江西软件大学</span>
+                        ：<span id="AgencyName">{{.certificate.Agencies.AgencyName}}</span>
                     </div>
                 </div>
 
@@ -123,30 +126,32 @@
                         </tr>
                         </thead>
                         <tbody>
+                        {{range .certificate.Course}}
                         <tr class="cs">
-                            <td><span class="courseName">实践课</span> <a href="javascript:void(0)"
+                            <td><span class="courseName">{{.CourseName}}</span> <a href="javascript:void(0)"
                                                                           class="hidden hide"><span
                                     class="iconfont icon-chacha cha"></span></a></td>
-                            <td><span class="score">120</span> <a href="javascript:void(0)"
+                            <td><span class="score">{{.Score}}</span> <a href="javascript:void(0)"
                                                                   class="hidden hide"><span
                                     class="iconfont icon-chacha cha"></span></a></td>
                         </tr>
-                        <tr class="cs">
-                            <td><span class="courseName">服务分</span> <a href="javascript:void(0)"
-                                                                          class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                            <td><span class="score">123</span> <a href="javascript:void(0)"
-                                                                  class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                        </tr>
-                        <tr class="cs">
-                            <td><span class="courseName">公益分</span> <a href="javascript:void(0)"
-                                                                          class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                            <td><span class="score">145</span> <a href="javascript:void(0)"
-                                                                  class="hidden hide"><span
-                                    class="iconfont icon-chacha cha"></span></a></td>
-                        </tr>
+                        {{end}}
+<!--                        <tr class="cs">-->
+<!--                            <td><span class="courseName">服务分</span> <a href="javascript:void(0)"-->
+<!--                                                                          class="hidden hide"><span-->
+<!--                                    class="iconfont icon-chacha cha"></span></a></td>-->
+<!--                            <td><span class="score">123</span> <a href="javascript:void(0)"-->
+<!--                                                                  class="hidden hide"><span-->
+<!--                                    class="iconfont icon-chacha cha"></span></a></td>-->
+<!--                        </tr>-->
+<!--                        <tr class="cs">-->
+<!--                            <td><span class="courseName">公益分</span> <a href="javascript:void(0)"-->
+<!--                                                                          class="hidden hide"><span-->
+<!--                                    class="iconfont icon-chacha cha"></span></a></td>-->
+<!--                            <td><span class="score">145</span> <a href="javascript:void(0)"-->
+<!--                                                                  class="hidden hide"><span-->
+<!--                                    class="iconfont icon-chacha cha"></span></a></td>-->
+<!--                        </tr>-->
                         </tbody>
                     </table>
                 </div>
@@ -158,7 +163,7 @@
                                 <span id="CertNumT">证书编号</span>
                             </div>
                             <div class="col-xl-8">
-                                <span id="CertNum">jbewhj</span>
+                                <span id="CertNum">{{.certificate.Metadata.Number}}</span>
                             </div>
                         </div>
 
@@ -167,27 +172,19 @@
                                 <span id="AgencyAddressT">机构地址</span>
                             </div>
                             <div class="col-xl-8">
-                                <span id="AgencyAddress">0xuawucuucbwev23wucadhu2hf</span>
+                                <span id="AgencyAddress">{{.certificate.Agencies.Address}}</span>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-xl-3">
-                                <span id="SignatureT">签名</span>
+                                <span id="SignatureT">数字签名</span>
                             </div>
-                            <div class="col-xl-3">
-                                <span id="Signature">vesfvsef0xuawusdveawervsfcuucbwev23wucadhu2hf</span>
+                            <div class="col-xl-8">
+                                <span id="Signature">{{.certificate.Metadata.Signature}}</span>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-xl-3">
-                                <span id="CertTypeT">证书类型</span>
-                            </div>
-                            <div class="col-xl-3">
-                                <span id="CertType">成绩单</span>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -260,13 +257,16 @@
             $(this).find(".courseName").text
             $(this).find(".score").text
             if ($(this).find(".courseName").parent().attr("class") == undefined && $(this).find(".score").parent().attr("class") != undefined) {
-                courses.push({CourseName:$(this).find(".courseName").text()})
-            }else if ($(this).find(".score").parent().attr("class") == undefined && $(this).find(".courseName").parent().attr("class") != undefined) {
-                courses.push({Score:parseFloat($(this).find(".score").text())})
-            }else if ($(this).find(".score").parent().attr("class") != undefined && $(this).find(".courseName").parent().attr("class") != undefined) {
+                courses.push({CourseName: $(this).find(".courseName").text()})
+            } else if ($(this).find(".score").parent().attr("class") == undefined && $(this).find(".courseName").parent().attr("class") != undefined) {
+                courses.push({Score: parseFloat($(this).find(".score").text())})
+            } else if ($(this).find(".score").parent().attr("class") != undefined && $(this).find(".courseName").parent().attr("class") != undefined) {
                 return true;
-            }else{
-                courses.push({CourseName:$(this).find(".courseName").text(),Score:parseFloat($(this).find(".score").text())})
+            } else {
+                courses.push({
+                    CourseName: $(this).find(".courseName").text(),
+                    Score: parseFloat($(this).find(".score").text())
+                })
             }
 
 
@@ -285,12 +285,8 @@
             })
         }
 
-        let certType = ""
-        if ($('#CertType').text() == "成绩单") {
-            certType = "2"
-        } else {
-            certType = "1"
-        }
+        let certType = "2"
+
 
 
         var data = {
@@ -310,7 +306,7 @@
             url: '/download',
             type: 'POST',
             data: data,
-            success: function(data, textStatus, jqXHR) {
+            success: function (data, textStatus, jqXHR) {
                 var blob = new Blob([data], {type: 'application/octet-stream'});
                 var url = window.URL.createObjectURL(blob);
                 var fileName = jqXHR.getResponseHeader('fileName');

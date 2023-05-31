@@ -30,6 +30,10 @@
 		.align-items-center{
 			margin-top: 20px;
 		}
+		.headLink{
+			margin-top: 8px;
+			font-size: 20px;
+		}
 	</style>
 
 </head>
@@ -49,10 +53,16 @@
 
 					</div>
 				</div>
-				<div class="col-xl-3 col-lg-6 col-md-11 col-9" style="margin-top: 9px;">
+				<div class="col-xl-11 col-lg-11 col-md-11 col-11" style="margin-top: 9px;">
 					<div class="row logo">
-						<div class="col-xl-5 col-lg-5 col-md-5 col-5">
+						<div class="col-xl-3 col-lg-5 col-md-5 col-5">
 							<h2 style="color: aliceblue;">BlockCertify</h2>
+						</div>
+						<div class="col-xl-2 col-lg-2 col-md-2 col-2 headLink">
+							<a href="/addCertShow" style="color: aliceblue;">颁发证书</a>
+						</div>
+						<div class="col-xl-2 col-lg-2 col-md-2 col-2 headLink">
+							<a href="/revoke" style="color: aliceblue;">撤销证书</a>
 						</div>
 					</div>
 				</div>
@@ -91,7 +101,7 @@
 						<div class="dropdown">
 							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
 									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								成绩单
+								选择颁发类型
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								<a class="dropdown-item" data-value="manual" certT="1" href="#">普通证书</a>
@@ -195,19 +205,35 @@
 <script src="assets/js/plugins.js"></script>
 <script src="assets/js/main.js"></script>
 <script>
-	let certT = 1
+	// 监听来自内容脚本的消息
+	// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+	// 	// 弹出钱包页面
+	// 	if (request.action === "add_err") {
+	// 		alert("添加失败")
+	// 	}
+	// 	if (request.action === "add_ok") {
+	// 		alert("添加成功")
+	// 		window.location.reload()
+	// 	}
+	//
+	// });
+
+	let certT = 0
 
 	$('.dropdown-item').on('click', function () {
 		// 获取选项的值
 		var value = $(this).data('value');
 
 		// 根据选项的值，显示对应的表单并隐藏其他表单
+
 		if (value === 'manual') {
 			certT = 1
+			$("#dropdownMenuButton").text("普通证书")
 			$('#manual-score').addClass('d-none');
 
 		} else if (value === 'import') {
 			certT = 2
+			$("#dropdownMenuButton").text("成绩单")
 			$('#manual-score').removeClass('d-none');
 
 		}
@@ -239,30 +265,26 @@
 
 
 	$("#issueBtn").on('click', function () {
-		var formData = new FormData();
-		formData.append('address', $('#address').val())
-		formData.append('certName', $('#certName').val())
-		formData.append('validityPeriod', $('#validityPeriod').val())
 
-
-
-		if (certT == 1) {
+		if (certT==0){
+			alert("请先选择登入类型")
+		}else if (certT == 1) {
 			var data = {
 				CertName: $('#certName').val(),
 				Address: $('#address').val(),
 				ValidityPeriod: $('#validityPeriod').val(),
 			};
 			$.ajax({
-				url: '/addCert',
+				url: '/addCertSign',
 				type: 'POST',
 				data: data,
 				success: function (data) {
-					if (data.add_status=="add_ok"){
-						alert("添加证书成功")
-						window.location.reload()
-					}else{
-						alert("添加失败")
-					}
+					// if (data.add_status=="add_ok"){
+					// 	alert("添加证书成功")
+					// 	window.location.reload()
+					// }else{
+					// 	alert("添加失败")
+					// }
 				}
 			})
 
@@ -275,7 +297,7 @@
 			}).get();
 			var courseObj = $.map(scores, function (score, i) {
 				return {
-					Course: courses[i],
+					CourseName: courses[i],
 					Score: parseFloat(score)
 				};
 			});
@@ -286,19 +308,15 @@
 				Courses:JSON.stringify(courseObj)
 			};
 			$.ajax({
-				url: '/addTranscript',
+				url: '/addTranscriptSign',
 				type: 'POST',
 				data: data,
 				success: function (data) {
-					if (data.add_status=="add_ok"){
-						alert("添加成绩单成功")
-						window.location.reload()
-					}else{
-						alert("添加失败")
-					}
+
 				}
 			})
 		}
+
 
 	})
 </script>
